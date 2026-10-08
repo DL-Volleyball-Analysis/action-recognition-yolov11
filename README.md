@@ -1,3 +1,7 @@
+> **Archived (October 2026).** This code now lives in
+> [volleyball-analysis/training/action-recognition](https://github.com/DL-Volleyball-Analysis/volleyball-analysis/tree/main/training/action-recognition).
+> This repository is kept read-only for its history.
+
 # Volleyball Action Recognition | 排球動作識別
 
 YOLOv11m-based volleyball action recognition for detecting 5 action types: block, receive, serve, set, spike.
