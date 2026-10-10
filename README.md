@@ -26,7 +26,7 @@ receive has about a fifth of spike's training boxes and there is no dig class. D
 | `requirements.txt` | dependencies |
 
 The Ultralytics pretrained `yolo11m.pt` base weights were removed from the latest version to keep the repository light; they remain in the history at
-[`aec7bc4`](https://github.com/DL-Volleyball-Analysis/action-recognition-yolov11/tree/aec7bc4).
+[`aec7bc4`](https://github.com/DL-Volleyball-Analysis/capstone-action-recognition/tree/aec7bc4).
 
 ## Data
 [Volleyball Actions](https://universe.roboflow.com/actions-players/volleyball-actions/dataset/5) and
