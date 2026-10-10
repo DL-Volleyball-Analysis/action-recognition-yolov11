@@ -1,104 +1,39 @@
-> **Archived (October 2026).** This code now lives in
-> [volleyball-analysis/training/action-recognition](https://github.com/DL-Volleyball-Analysis/volleyball-analysis/tree/main/training/action-recognition).
-> This repository is kept read-only for its history.
+> **Archived.** Part of the NTOU senior capstone *Volleyball Match Analysis System Based on Deep Learning*.
+> The code now lives in [volleyball-analysis/training/action-recognition](https://github.com/DL-Volleyball-Analysis/volleyball-analysis/tree/main/training/action-recognition); this repository is kept read-only as the record of the capstone version.
 
-# Volleyball Action Recognition | 排球動作識別
+# Capstone: Volleyball Action Recognition | 排球動作辨識
 
-YOLOv11m-based volleyball action recognition for detecting 5 action types: block, receive, serve, set, spike.
+A YOLOv11m detector for five player actions (block, receive, serve, set, spike) on full video frames, trained on
+two merged Roboflow Universe datasets (24,806 images: 18,616 train, 3,636 validation, 2,554 test).
 
-使用 YOLOv11m 模型進行排球動作識別，能夠檢測五種動作：攔網、接球、發球、舉球、扣球。
+<p align="center"><img src="docs/action-boxes.jpg" width="720" alt="Action detections in the capstone web app"></p>
 
----
+## Result
+| | mAP@0.5 | mAP@0.5:0.95 |
+|---|---|---|
+| Validation split (reported in the capstone) | 0.945 | 0.755 |
+| Test split (measured October 2026) | 0.957 | 0.790 |
 
-## Overview | 概述
+Per class on the test split: block 0.987, receive 0.863, serve 0.967, set 0.976, spike 0.991. Every test image with
+a source-video name comes from a video that is also in the training split, so these are not unseen-match scores;
+receive has about a fifth of spike's training boxes and there is no dig class. Details:
+[docs/results/actions.md](https://github.com/DL-Volleyball-Analysis/volleyball-analysis/blob/main/docs/results/actions.md).
 
-This project trains a YOLOv11m model to recognize volleyball actions from video frames.
+## Contents
+| Path | What it is |
+|---|---|
+| `train_volleyball.py` | training script (Ultralytics, 200 epochs, 640 px, SGD) |
+| `requirements.txt` | dependencies |
 
-本專案使用 YOLOv11m 模型訓練排球動作識別，用於從影片幀中檢測球員動作。
+The Ultralytics pretrained `yolo11m.pt` base weights were removed from the latest version to keep the repository light; they remain in the history at
+[`aec7bc4`](https://github.com/DL-Volleyball-Analysis/action-recognition-yolov11/tree/aec7bc4).
 
-## Dataset | 資料集
+## Data
+[Volleyball Actions](https://universe.roboflow.com/actions-players/volleyball-actions/dataset/5) and
+[Volleyball Action Recognition](https://universe.roboflow.com/vbanalyzer/volleyball-action-recognition-k6tqv/dataset/6)
+(Roboflow Universe, CC BY 4.0).
 
-| Metric | Value |
-|--------|-------|
-| Total Images | 24,806 |
-| Training | 18,616 |
-| Validation | 3,636 |
-| Test | 2,554 |
-
-**Sources:**
-- [Volleyball Actions Dataset](https://universe.roboflow.com/actions-players/volleyball-actions/dataset/5) (CC BY 4.0)
-- [Volleyball Action Recognition Dataset](https://universe.roboflow.com/vbanalyzer/volleyball-action-recognition-k6tqv/dataset/6)
-
-**Download (Recommended):** [Google Drive](https://drive.google.com/drive/folders/1lvWUwkBAEeCGJoM7Z5gwE71ngi94xQB5?usp=share_link)
-
-## Action Classes | 動作類別
-
-| ID | English | 中文 | Description |
-|----|---------|------|-------------|
-| 0 | block | 攔網 | Player blocking at the net |
-| 1 | receive | 接球 | Receiving serve or spike |
-| 2 | serve | 發球 | Serving the ball |
-| 3 | set | 舉球 | Setting for teammate |
-| 4 | spike | 扣球 | Attacking/spiking |
-
-## Model Specifications | 模型規格
-
-- **Architecture:** YOLOv11m (Medium)
-- **Parameters:** 20,056,863
-- **Layers:** 231
-- **GFLOPs:** 68.2
-
-## Training Configuration | 訓練配置
-
-| Parameter | Value |
-|-----------|-------|
-| Framework | Ultralytics YOLO |
-| Epochs | 200 |
-| Batch Size | 12 (M1 Pro) / 16-20 (RTX) |
-| Image Size | 640x640 |
-| Optimizer | SGD |
-| Learning Rate | 0.001 |
-| Device | MPS / CUDA / CPU |
-
-## Quick Start | 快速開始
-
-```bash
-# Clone and setup
-git clone https://github.com/DL-Volleyball-Analysis/action-recognition-yolov11.git
-cd action-recognition-yolov11
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-
-# Train
-python train_volleyball.py
-```
-
-## Inference | 推理
-
-```python
-from ultralytics import YOLO
-
-model = YOLO('runs/volleyball_200epoch/weights/best.pt')
-results = model('path/to/image.jpg')
-results[0].show()
-```
-
-## Project Structure | 專案結構
-
-```
-action-recognition-yolov11/
-├── README.md
-├── train_volleyball.py      # Training script
-├── yolo11m.pt               # Pretrained model
-├── requirements.txt
-└── Volleyball_Action_Dataset/  # Dataset (not in repo)
-```
-
-## License | 授權
-
-Dataset: CC BY 4.0
-
----
-
-*Part of [DL-Volleyball-Analysis](https://github.com/DL-Volleyball-Analysis) - Senior Capstone Project*
+## Team
+Liang Yu-Jia 梁祐嘉 (lead), Tsai Pei-Ying 蔡佩穎, Chung Chia-Hsin 鍾佳芯; advisor Professor Ting Pei-Yi 丁培毅.
+Department of Computer Science and Engineering, National Taiwan Ocean University.
+MIT License.
